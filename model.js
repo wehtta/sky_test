@@ -1,42 +1,65 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 // 创建数据库连接
-const conn = mongoose.createConnection('mongodb://localhost:27017/graphql',{ useNewUrlParser: true, useUnifiedTopology: true });
+const conn = mongoose.createConnection('mongodb://localhost:27017/graphql',{ useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true   });
 
 conn.on('open', () => console.log('db connection succeeded.'));
 conn.on('error', (error) => console.log(error));
 
 const StoreSchema = new Schema({
-  name: 'string',
-  city: 'string',
-  state: 'string',
-  zip: 'string',
-  type: 'string', // store type
-  description: 'string',
-  geo: 'object',
+  name: { type: String, required: true },
+  city: { type: String, required: true },
+  state:{ type: String, required: true },
+  zip:  { type: String, required: true },
+  type: { type: String, required: true }, // store type
+  description:  { type: String },
+  geo: {
+    type: {
+      type: String,
+      enum: ['Point'],
+    },
+    coordinates: {
+      type: [Number],
+      default: undefined,
+      required: true
+    }
+  }
 });
+StoreSchema.index({geo: '2dsphere'});
+
 const StoreModel = conn.model('Store', StoreSchema);
 
 const PinSchema = new Schema({
-  name: 'string',
-  city: 'string',
-  state: 'string',
-  zip: 'string',
-  lease_type: 'string',
-  usage_type: 'string', 
-  description: 'string',
-  geo: 'object',
+  name:  { type: String, required: true },
+  city:  { type: String, required: true },
+  state: { type: String, required: true },
+  zip:  { type: String, required: true },
+  lease_type: { type: String, required: true },
+  usage_type: { type: String, required: true }, 
+  description:  { type: String },
+  geo: {
+    type: {
+      type: String,
+      enum: ['Point'],
+    },
+    coordinates: {
+      type: [Number],
+      default: undefined,
+      required: true,
+    }
+  }
 });
+PinSchema.index({geo: '2dsphere'});
 const PinModel = conn.model('Pin', PinSchema);
 
 const userSchema = new Schema({
-  firstname: 'string',
-  lastname: 'string',
-  email: 'string',
-  phone:  'string',
-  password: 'string',
-  organization: 'string',
-  description: 'string'
+  firstname: { type: String, required: true },
+  lastname: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String, required: true },
+  password: { type: String, required: true },
+  organization: { type: String, required: true },
+  description:  { type: String }
 });
 const UserModel = conn.model('User', userSchema);
 
