@@ -1,0 +1,27 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "Matthew Yu",
+  "license": "MIT",
+  "dependencies": {
+    "graphql": "^14.5.8",
+    "jwt-simple": "^0.5.6",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-graphql": "^0.8.0",
+    "koa-logger": "^3.2.1",
+    "koa-mount": "^4.0.0",
+    "koa-router": "^7.4.0",
+    "koa2-cors": "^2.0.6",
+    "mongoose": "^5.7.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
