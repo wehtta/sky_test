@@ -155,6 +155,13 @@ const RootMutation = new GraphQLObjectType({
       async resolve(parent, args){
         const storeId = args.store_id;
         const userId = args.user_id;
+        
+        // check if store is already favored by the user
+        const favor = await FavoredStoreModel.find({store: storeId, user: userId});
+        if (favor) {
+          console.log(favor);
+          return favor[0];
+        }
 
         const result = await FavoredStoreModel.create({store: storeId, user: userId})
         return result;
